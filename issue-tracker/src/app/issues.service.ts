@@ -18,4 +18,32 @@ export class IssuesService {
     issue.issueNo = issues.length + 1;
     issues.push(issue);
   }
+
+  completeIssue(issue: Issue) {
+    const selectedIssue: Issue = {
+      ...issue,
+      completed: new Date()
+    };
+    const index = issues.findIndex(i => i === issue);
+    issues[index] = selectedIssue;
+  }
+
+  getSuggestions(title: string): Issue[] {
+    if (title.length > 3) {
+      return issues.filter(issue => issue.title.indexOf(title) !== -1);
+    }
+    return [];
+  }
+
+  updateIssue(issueNo: number, issue:Issue) {
+    const existingIssue = issues.find(i => i.issueNo === issueNo);
+    if (existingIssue) {
+      const index = issues.indexOf(existingIssue);
+      issues[index] = {
+        ...existingIssue,
+        ...issue
+      }
+    }
+
+  }
 }
